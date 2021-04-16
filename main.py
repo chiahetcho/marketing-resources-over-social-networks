@@ -27,10 +27,14 @@ import matplotlib.pyplot as plt
 #     if i==1:
 #         return np.minimum([b[1] for index in range(N)], np.maximum([0 for index in range(N)], alpha[1]))
 
-def u_0(x_0, a_0):
+def phi(x, a_0, a_1):
+    return np.divide(x + a_0, np.array([1 for _ in range(N)]) + a_0 + a_1)
+
+def u_0(x_0, a_0, a_1):
     gamma_0 = gamma[0]
     lambd_0 = lambd[0]
-    return gamma_0 * np.matmul(rho, x_0) - lambd_0 * np.matmul(np.array([1 for _ in range(N)]), a_0)
+    x_0_plus = phi(x_0, a_0, a_1)
+    return gamma_0 * np.matmul(rho, x_0_plus) - lambd_0 * np.matmul(np.array([1 for _ in range(N)]), a_0)
 
 
 gamma = [1, 1]
@@ -221,7 +225,7 @@ for C in [5, 10, 100]:
 
         # compute GoT
         # print('here', beta[0], a[0])
-        got = (u_0(x_0, a[0]) - u_0(x_0, a_init[0])) / (u_0(x_0, a_init[0]))
+        got = (u_0(x_0, a[0], a_init[1]) - u_0(x_0, a_init[0], a_init[1])) / (u_0(x_0, a_init[0], a_init[1]))
         result.append(got)
     results.append(result)
 
