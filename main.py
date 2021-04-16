@@ -41,7 +41,7 @@ gamma = [1, 1]
 B = [10, 10]
 lambd = [0.1, 0.1]
 N = 100
-b = [B[0] / 10, B[1] / 10]
+b = [B[0] / 2, B[1] / 2]
 x_0 = np.array([0.5 for index in range(N)])
 pas = 0.01
 a_init = np.array([[B[0] / N for _ in range(N)], [B[1] / N for _ in range(N)]])
@@ -50,7 +50,7 @@ results = []
 for C in [5, 10, 100]:
     # C=5
     result = []
-    for number_of_leaders in range(1, 100, 5):
+    for number_of_leaders in range(10, 100, 5):
         # number_of_leaders=13
         leaders_indices = random.sample(range(N), number_of_leaders)
         print(leaders_indices)
@@ -237,9 +237,9 @@ fig.suptitle('Multiple Lines in Same Plot', fontsize=15)
 
 # Draw all the lines in the same plot, assigning a label for each one to be
 # shown in the legend.
-ax.plot(range(1, 100, 5), results[0], color="red", label="C=5")
-ax.plot(range(1, 100, 5), results[1], color="green", label="C=10")
-ax.plot(range(1, 100, 5), results[2], color="blue", label="C=100")
+ax.plot(range(10, 100, 5), results[0], color="red", label="C=5")
+ax.plot(range(10, 100, 5), results[1], color="green", label="C=10")
+ax.plot(range(10, 100, 5), results[2], color="blue", label="C=100")
 
 # Add a legend, and position it on the lower right (with no box)
 plt.legend(loc="upper right", title="", frameon=False)
