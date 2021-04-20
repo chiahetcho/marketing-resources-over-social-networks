@@ -93,7 +93,7 @@ for C in [5, 10, 100]:
                         W_1, W_2 = new_W_1, new_W_2
 
                     # if we have enough water for everyone, stop here
-                    if sum(beta[0]) < B[0]:
+                    if sum(beta[k]) < B[k]:
                         break
 
             # gradient descent step
