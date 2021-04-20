@@ -2,14 +2,17 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 # opinion update function for agent i
 def phi(x, a_0, a_1):
     return np.divide(x + a_0, np.array([1 for _ in range(N)]) + a_0 + a_1)
+
 
 # initial utility for agent i
 def u_0(x_0, a_0, a_1):
     x_0_plus = phi(x_0, a_0, a_1)
     return gamma[0] * np.matmul(rho, x_0_plus) - lambd[0] * np.matmul(np.array([1 for _ in range(N)]), a_0)
+
 
 # initial values
 gamma = [1, 1]
@@ -20,6 +23,7 @@ b = [B[0] / 2, B[1] / 2]
 x_0 = np.array([0.5 for index in range(N)])
 pas = 0.01
 a_init = np.array([[B[0] / N for _ in range(N)], [B[1] / N for _ in range(N)]])
+
 
 # main loop
 results = []
@@ -32,16 +36,7 @@ for C in [5, 10, 100]:
         
         # iterate long enough for convergence
         for x in range(100):
-            W_0 = [
-                [index for index in range(N) if a[0][index] == 0],
-                [index for index in range(N) if a[1][index] == 0]
-            ]
-            W_1 = [
-                [index for index in range(N) if a[0][index] == b[0]],
-                [index for index in range(N) if a[1][index] == b[1]]
-            ]
-
-            # compute mu_0
+            # sort the agents for the waterfilling
             sqrt_d = [
                 np.sqrt(rho * (np.array([1 for _ in range(N)]) - x_0 + a[1])),
                 np.sqrt(rho * (x_0 + a[0]))
@@ -55,6 +50,7 @@ for C in [5, 10, 100]:
                 [t[0] for t in sorted(enumerate(sqrt_d[1]), key=lambda t: sorting_condition[1][t[0]])],
             ]
 
+            # waterfilling
             beta = [[0 for j in range(N)], [0 for j in range(N)]]
             for k in range(0, 2):
                 # try to give water to everyone, remove people one by one
@@ -107,6 +103,7 @@ for C in [5, 10, 100]:
         got = (u_0(x_0, a[0], a_init[1]) - u_0(x_0, a_init[0], a_init[1])) / (u_0(x_0, a_init[0], a_init[1]))
         result.append(got)
     results.append(result)
+
 
 # Initialise the figure and axes.
 fig, ax = plt.subplots(1, figsize=(8, 6))
